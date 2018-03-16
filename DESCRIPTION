@@ -30,7 +30,7 @@ LazyData: true
 URL: http://www.github.com/thomasWeise/learnerSelectoR
 BugReports: http://www.github.com/thomasWeise/learnerSelectoR/issues
 Imports: methods
-Suggests: testthat, roxygen2
+Suggests: testthat, roxygen2, minpack.lm
 RoxygenNote: 6.0.1.9000
 Collate: 
     'check.R'

@@ -41,7 +41,7 @@ test_that("learning.learn full test", {
            contains = "learning.Result");
 
   # create the learners
-  require(minpack.lm);
+  if(!(require("minpack.lm"))) { return; }
   learners <- lapply(X=list(model.1,
                             model.2,
                             model.3,
@@ -146,7 +146,7 @@ test_that("learning.learn test with single representation", {
            contains = "learning.Result");
 
   # create the learners
-  require(minpack.lm);
+  if(!(require("minpack.lm"))) { return; }
   learners <- lapply(X=list(model.1,
                             model.2,
                             model.3,
@@ -256,7 +256,7 @@ test_that("learning.learn with a single model that does not fit too well", {
            contains = "learning.Result");
 
   # create the learners
-  require(minpack.lm);
+  if(!(require("minpack.lm"))) { return; }
   learners <- lapply(X=list(model.1),
                      FUN=function(model) {
                        model<-force(model);
@@ -352,7 +352,7 @@ test_that("learning.learn test with single representation and model", {
            contains = "learning.Result");
 
   # create the learners
-  require(minpack.lm);
+  if(!(require("minpack.lm"))) { return; }
   learners <- lapply(X=list(model.1),
                      FUN=function(model) {
                        model<-force(model);
