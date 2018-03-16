@@ -31,8 +31,8 @@ URL: http://www.github.com/thomasWeise/learnerSelectoR
 BugReports: http://www.github.com/thomasWeise/learnerSelectoR/issues
 Depends: R (>= 3.3.2)
 Imports: methods (>= 3.3.2)
-Suggests: testthat (>= 2.0.0.9000),
-          roxygen2 (>= 6.0.1.9000),
+Suggests: testthat (>= 2.0.0),
+          roxygen2 (>= 6.0.1),
           minpack.lm (>= 1.2.1)
 RoxygenNote: 6.0.1.9000
 Collate: 
