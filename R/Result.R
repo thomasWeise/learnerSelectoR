@@ -59,7 +59,7 @@ learning.Result.new <- function(quality, size=.Machine$integer.max) {
 #' @param object the instance of \code{\link{learning.Result}}
 #' @return the finalized \code{\link{learning.Result}} instance
 #' @importFrom methods setGeneric
-#' @export learning.Result.finalize
+#' @exportMethod learning.Result.finalize
 #' @docType methods
 #' @aliases learning.Result.finalize
 methods::setGeneric(
