@@ -1,7 +1,7 @@
 Package: learnerSelectoR
 Type: Package
 Title: An R Package for Automatically Selecting and Applying a (Machine) Learning Method
-Version: 0.8.0
+Version: 0.8.1
 Author: Dr. Thomas Weise <tweise@hfuu.edu.cn>
 Maintainer: Dr. Thomas Weise <tweise@hfuu.edu.cn>
 Description: This package provides an infrastructure for selecting the right Machine Learning
@@ -29,8 +29,11 @@ Encoding: UTF-8
 LazyData: true
 URL: http://www.github.com/thomasWeise/learnerSelectoR
 BugReports: http://www.github.com/thomasWeise/learnerSelectoR/issues
-Imports: methods
-Suggests: testthat, roxygen2, minpack.lm
+Depends: R (>= 3.3.2)
+Imports: methods (>= 3.3.2)
+Suggests: testthat (>= 2.0.0.9000),
+          roxygen2 (>= 6.0.1.9000),
+          minpack.lm (>= 1.2.1)
 RoxygenNote: 6.0.1.9000
 Collate: 
     'check.R'
