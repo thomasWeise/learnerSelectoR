@@ -25,7 +25,7 @@ complete represented data. Via the selector function, it is also possible
 to cache quality measures or something.}
 
 \item{learners}{a list of learners, functions which accept the output of
-preprocessor and return an instance of \code{\link{learning.Result}}}
+the selectors and return an instance of \code{\link{learning.Result}}}
 
 \item{test.selector}{similar to selector, but used to derive the data for
 testing, by default equal to \code{selector}}

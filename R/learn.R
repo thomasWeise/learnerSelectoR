@@ -39,7 +39,7 @@
 #' @param threshold the relative difference between two test qualities below
 #'   which we will pick the the "smaller" result
 #' @param learners a list of learners, functions which accept the output of
-#'   preprocessor and return an instance of \code{\link{learning.Result}}
+#'   the selectors and return an instance of \code{\link{learning.Result}}
 #' @return the result of the learning process
 #' @export learning.learn
 #' @importFrom methods is
