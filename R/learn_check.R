@@ -84,7 +84,7 @@
     test.quality.args <- base::formals(test.quality);
   }
   if(!(base::identical(base::names(test.quality.args), c("data", "result")))) {
-    stop("A test.quality must be a biary function with exactly two arguments: 'data' and 'selection'.");
+    stop("A test.quality must be a biary function with exactly two arguments: 'data' and 'result'.");
   }
 }
 
