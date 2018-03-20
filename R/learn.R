@@ -45,11 +45,11 @@
 #' @importFrom methods is
 learning.learn <- function(data,
                            data.size,
-                           representations=NULL,
-                           selector=.def.selector,
                            learners,
-                           test.selector=selector,
                            test.quality,
+                           selector=.def.selector,
+                           representations=NULL,
+                           test.selector=selector,
                            threshold=4e-3) {
 
   # Check all arguments

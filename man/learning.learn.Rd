@@ -4,9 +4,9 @@
 \alias{learning.learn}
 \title{Apply a Set of Machine Learning Methods and Produce a Final Result with the Most Promising One}
 \usage{
-learning.learn(data, data.size, representations = NULL,
-  selector = .def.selector, learners, test.selector = selector,
-  test.quality, threshold = 0.004)
+learning.learn(data, data.size, learners, test.quality,
+  selector = .def.selector, representations = NULL,
+  test.selector = selector, threshold = 0.004)
 }
 \arguments{
 \item{data}{the data set based on which we perform the learning task}
@@ -14,8 +14,11 @@ learning.learn(data, data.size, representations = NULL,
 \item{data.size}{the number of elements in the data, i.e., how many samples
 we can use, which will be the basis for cross-validation}
 
-\item{representations}{a vector or list of data representations which should
-be used for learning, or \code{NULL} to only use the original \code{data}.}
+\item{learners}{a list of learners, functions which accept the output of
+the selectors and return an instance of \code{\link{learning.Result}}}
+
+\item{test.quality}{the quality metric used to get the solution quality on
+the test data}
 
 \item{selector}{a function which returns a sub-set of a data representation
 made suitable for learning: it takes as input a data representation and an
@@ -24,14 +27,11 @@ If the second argument is \code{NULL}, the selector should return the
 complete represented data. Via the selector function, it is also possible
 to cache quality measures or something.}
 
-\item{learners}{a list of learners, functions which accept the output of
-the selectors and return an instance of \code{\link{learning.Result}}}
+\item{representations}{a vector or list of data representations which should
+be used for learning, or \code{NULL} to only use the original \code{data}.}
 
 \item{test.selector}{similar to selector, but used to derive the data for
 testing, by default equal to \code{selector}}
-
-\item{test.quality}{the quality metric used to get the solution quality on
-the test data}
 
 \item{threshold}{the relative difference between two test qualities below
 which we will pick the the "smaller" result}
