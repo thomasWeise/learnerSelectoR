@@ -33,13 +33,13 @@ rank.by.comparison <- function(data, comparator) {
     for(j in 1:(i-1)) {
       res <- comparator(a, data[[j]]);
       if(res < 0L) {
-        losses[[j]] <- losses[[j]] + 1L;
+        losses[j] <- losses[j] + 1L;
       } else {
         if(res > 0L) {
-          losses[[i]] <- losses[[i]] + 1L;
+          losses[i] <- losses[i] + 1L;
         } else {
-          equals[[i]] <- equals[[i]] + 1L;
-          equals[[j]] <- equals[[j]] + 1L;
+          equals[i] <- equals[i] + 1L;
+          equals[j] <- equals[j] + 1L;
         }
       }
     }
