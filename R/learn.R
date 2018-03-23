@@ -55,7 +55,7 @@ learning.learn <- function(data,
   # Check all arguments
   .learn.check.data(data);
   representations <- .learn.check.representations(data, representations);
-  representations.length <- base::length(representations);
+  representations.length <- length(representations);
   .learn.check.data.size(data.size);
   .learn.check.selector(selector);
   learners.length <- .learn.check.learners(learners);
@@ -65,12 +65,12 @@ learning.learn <- function(data,
 
   # In total, we have representations.length * learners.length possible things
   # that we can do with the data.
-  choices <- base::unlist(base::lapply(X=1:representations.length, FUN=
-                function(i) base::lapply(X=1:learners.length, FUN=
-                function(j) base::list(representation=i,
+  choices <- unlist(lapply(X=1:representations.length, FUN=
+                function(i) lapply(X=1:learners.length, FUN=
+                function(j) list(representation=i,
                                        learner=j))), recursive = FALSE);
-  choices.length <- base::length(choices);
-  choices.rankSum <- base::rep(x=0L, times=choices.length);
+  choices.length <- length(choices);
+  choices.rankSum <- rep(x=0L, times=choices.length);
   choices.range <- 1:choices.length;
 
   # for each division of data
@@ -78,9 +78,9 @@ learning.learn <- function(data,
   for(sample in learning.sample.uniform(data.size)) {
     index <- index + 1L;
     # first we select the training data for each representation
-    data.use <- base::lapply(X=representations, FUN = function(x) selector(x, sample$training, index));
+    data.use <- lapply(X=representations, FUN = function(x) selector(x, sample$training, index));
     # then we apply all learners to training data
-    results <- base::lapply(X=choices, FUN=function(c) {
+    results <- lapply(X=choices, FUN=function(c) {
       result <- NULL;
       .ignore.errors(result <- learners[[c$learner]](data.use[[c$representation]]));
       if(methods::is(result, "learning.Result")) {
@@ -88,9 +88,9 @@ learning.learn <- function(data,
       }
       return(NULL); });
     # now we can select the test data for each representation
-    data.use <- base::lapply(X=representations, FUN = function(x) test.selector(x, sample$test, index));
+    data.use <- lapply(X=representations, FUN = function(x) test.selector(x, sample$test, index));
     # now get the quality on the test set, setting all undefined qualities to positive infinity
-    qualities <- base::vapply(X=choices.range,
+    qualities <- vapply(X=choices.range,
                               FUN=function(c) {
                                 res <- results[[c]];
                                 if(!(methods::is(res, "learning.Result"))) { return(+Inf); }
@@ -109,7 +109,7 @@ learning.learn <- function(data,
                                       results[[a]],
                                       results[[b]])); } );
 
-    choices.rankSum <- base::force(choices.rankSum);
+    choices.rankSum <- force(choices.rankSum);
   }
 
   # OK, now we have applied the methods to all training and test data.
@@ -121,14 +121,14 @@ learning.learn <- function(data,
   lastRank <- (-1L);
   data.use <- vector("list", representations.length);
   index <- index + 1L;
-  for(i in base::order(choices.rankSum)) {
+  for(i in order(choices.rankSum)) {
 
     # check if we are finished
     rank <- choices.rankSum[i];
 
     if(rank > lastRank) {
       # ok, we have transcended the ranks by one.
-      if(!(base::is.null(best))) {
+      if(!(is.null(best))) {
         break;
       }
       lastRank <- rank;
@@ -137,7 +137,7 @@ learning.learn <- function(data,
     # apply the next better-ranked method
     method <- choices[[i]];
     data.this <- data.use[[method$representation]];
-    if(base::is.null(data.this) || base::is.na(data.this)) {
+    if(is.null(data.this) || is.na(data.this)) {
       data.this <- selector(representations[[method$representation]], NULL, index);
       data.use[[method$representation]] <- data.this;
     }
@@ -147,7 +147,7 @@ learning.learn <- function(data,
 
     # check if this is the best solution we got so far
     if(methods::is(result, "learning.Result")) {
-      if(base::is.null(best)) { best <- result; }
+      if(is.null(best)) { best <- result; }
       else {
         if(.learn.compare.r(result, best, threshold) < 0L) {
           best <- result;
@@ -157,9 +157,9 @@ learning.learn <- function(data,
   }
 
   # finalize the result
-  if(!(base::is.null(best))) {
+  if(!(is.null(best))) {
     best <- learning.Result.finalize(best);
-    best <- base::force(best);
+    best <- force(best);
   }
   return(best);
 }

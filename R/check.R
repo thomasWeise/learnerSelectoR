@@ -4,9 +4,9 @@
 #' @param quality the quality value
 #' @return \code{TRUE} if the quality value is permissible, \code{FALSE} otherwise
 #' @export learning.checkQuality
-learning.checkQuality <- function(quality)  base::is.finite(quality) &&
+learning.checkQuality <- function(quality)  is.finite(quality) &&
                                             (quality >= 0) &&
-                                            (base::length(quality) == 1L)
+                                            (length(quality) == 1L)
 
 #' @title Check a Learning Size Value
 #' @description Check whether a value \code{size} is a permissible value for the
@@ -14,6 +14,6 @@ learning.checkQuality <- function(quality)  base::is.finite(quality) &&
 #' @param size the size value
 #' @return \code{TRUE} if the size  value is permissible, \code{FALSE} otherwise
 #' @export learning.checkSize
-learning.checkSize <- function(size)  base::is.integer(size) && (size >= 0) &&
+learning.checkSize <- function(size)  is.integer(size) && (size >= 0) &&
                                       (size <= .Machine$integer.max) &&
-                                      (base::length(size) == 1L)
+                                      (length(size) == 1L)

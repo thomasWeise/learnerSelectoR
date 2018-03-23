@@ -13,18 +13,18 @@
 #' @export rank.by.comparison
 rank.by.comparison <- function(data, comparator) {
   # get length of data
-  n <- base::length(data);
+  n <- length(data);
 
   if(n <= 0) {
     stop("There must be at least one element to rank.");
   }
   if(n <= 1) {
-    return(base::c(1L));
+    return(c(1L));
   }
 
   # create list (looks strange, I don't know how to do it better)
-  losses <- base::rep(0L, n);
-  equals <- base::rep(0L, n);
+  losses <- rep(0L, n);
+  equals <- rep(0L, n);
 
   # unfortunately, quadratic complexity ... I don't have a good sorting method
   # handy/implemented for this, for now it will do.
@@ -47,12 +47,12 @@ rank.by.comparison <- function(data, comparator) {
 
   # Finalize the computation and return a vector with the ranks.
   # If all ranks are integers, an integer vector is returned.
-  return(base::sapply(X=1:n,
+  return(sapply(X=1:n,
                       FUN=function(c) {
                         rank <- losses[c] + 1L;
                         if(equals[c] <= 0L) { return(rank); }
                         t1 <- 0.5*equals[c];
-                        t2 <- base::as.integer(t1);
+                        t2 <- as.integer(t1);
                         if(t1 == t2) { return(rank + t2); }
                         return(rank + t1);
                       },

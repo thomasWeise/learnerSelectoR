@@ -80,7 +80,7 @@ test_that("learning.learn full test", {
       selected$y <- selected$y[selection];
     }
     # also create a metric
-    selected$metric <- function(f, par) base::sqrt(base::mean( (selected$y - f(selected$x, par)) ^2 ) )
+    selected$metric <- function(f, par) sqrt(mean( (selected$y - f(selected$x, par)) ^2 ) )
     selected$metric <- force(selected$metric);
     selected <- force(selected);
     return(selected);
@@ -185,7 +185,7 @@ test_that("learning.learn test with single representation", {
       selected$y <- selected$y[selection];
     }
     # also create a metric
-    selected$metric <- function(f, par) base::sqrt(base::mean( (selected$y - f(selected$x, par)) ^2 ) )
+    selected$metric <- function(f, par) sqrt(mean( (selected$y - f(selected$x, par)) ^2 ) )
     selected$metric <- force(selected$metric);
     selected <- force(selected);
     return(selected);
@@ -290,7 +290,7 @@ test_that("learning.learn with a single model that does not fit too well", {
       selected$y <- selected$y[selection];
     }
     # also create a metric
-    selected$metric <- function(f, par) base::sqrt(base::mean( (selected$y - f(selected$x, par)) ^2 ) )
+    selected$metric <- function(f, par) sqrt(mean( (selected$y - f(selected$x, par)) ^2 ) )
     selected$metric <- force(selected$metric);
     selected <- force(selected);
     return(selected);
@@ -386,7 +386,7 @@ test_that("learning.learn test with single representation and model", {
       selected$y <- selected$y[selection];
     }
     # also create a metric
-    selected$metric <- function(f, par) base::sqrt(base::mean( (selected$y - f(selected$x, par)) ^2 ) )
+    selected$metric <- function(f, par) sqrt(mean( (selected$y - f(selected$x, par)) ^2 ) )
     selected$metric <- force(selected$metric);
     selected <- force(selected);
     return(selected);

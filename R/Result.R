@@ -38,10 +38,10 @@ learning.Result <- methods::setClass(
 #' @export learning.Result.new
 learning.Result.new <- function(quality, size=.Machine$integer.max) {
   result <- methods::new("learning.Result", quality=quality, size=size);
-  result <- base::force(result);
-  result@quality <- base::force(result@quality);
-  result@size <- base::force(result@size);
-  result <- base::force(result);
+  result <- force(result);
+  result@quality <- force(result@quality);
+  result@size <- force(result@size);
+  result <- force(result);
   methods::validObject(result);
   return(result);
 }
@@ -65,7 +65,7 @@ learning.Result.new <- function(quality, size=.Machine$integer.max) {
 methods::setGeneric(
   name="learning.Result.finalize",
   def=function(object) {
-    base::standardGeneric("learning.Result.finalize")
+    standardGeneric("learning.Result.finalize")
   }
 )
 

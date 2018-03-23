@@ -14,14 +14,14 @@
   qa <- a.quality[1];
   qb <- b.quality[1];
   # our primary criterion is the quality
-  if(learning.checkQuality(qa)) {
+  if(is.finite(qa) && (qa >= 0)) {# == learning.checkQuality(qa)) {
     # a has a finite quality
-    if(learning.checkQuality(qb)) {
+    if(is.finite(qb) && (qb >= 0)) {# == learning.checkQuality(qb)) {
       # b too, so we can compare them
       if(qa != qb) {
         # the qualities are not identical
-        diff <- base::abs( 2 * ((qa - qb) / (qa + qb)) );
-        if((!(base::is.finite(diff))) || (diff > threshold)) {
+        diff <- abs( 2 * ((qa - qb) / (qa + qb)) );
+        if((!(is.finite(diff))) || (diff > threshold)) {
           # and either too big to compute the threshold, or the difference
           # is bigger than what can be ignored - so we compare them
           if(qa < qb) { return(-1L); }
@@ -32,7 +32,7 @@
       return(-1L);
     }
   } else { # quality a is not finite
-    if(learning.checkQuality(qb)) {
+    if(is.finite(qb) && (qb >= 0)) {# == learning.checkQuality(qb)) {
       return(1L); # but b is, so b is better
     }
     # both qualities are infinite, so no one wins
@@ -49,13 +49,13 @@
 
   # test qualities are either all non-finite or identical, model sizes are
   # same, so we now check the training qualities
-  if(base::length(a.quality) > 1) {
+  if(length(a.quality) > 1) {
     qa <- a.quality[2];
     qb <- b.quality[2];
 
-    if(learning.checkQuality(qa)) {
+    if(is.finite(qa) && (qa >= 0)) {# == learning.checkQuality(qa)) {
       # a has a finite quality
-      if(learning.checkQuality(qb)) {
+      if(is.finite(qb) && (qb >= 0)) {# == learning.checkQuality(qb)) {
         # b too, so we can compare them
         if(qa < qb) { return(-1L); }
         if(qa > qb) { return(1L); }
@@ -64,7 +64,7 @@
         return(-1L);
       }
     } else { # quality a is not finite
-      if(learning.checkQuality(qb)) {
+      if(is.finite(qb) && (qb >= 0)) {# == learning.checkQuality(qb)) {
         return(1L); # but b is, so b is better
       }
       # both qualities are infinite, so no one wins
@@ -75,7 +75,7 @@
 }
 
 .learn.compare.qAndR <- function(a.quality, b.quality, threshold, a.result, b.result) {
-  if(base::is.null(a.result)) {
+  if(is.null(a.result)) {
     a.size <- .Machine$integer.max;
     a.testq <- +Inf;
   } else {
@@ -83,7 +83,7 @@
     a.testq <- a.result@quality;
   }
 
-  if(base::is.null(b.result)) {
+  if(is.null(b.result)) {
     b.size <- .Machine$integer.max;
     b.testq <- +Inf;
   } else {
@@ -91,15 +91,15 @@
     b.testq <- b.result@quality;
   }
 
-  return(.learn.compare( base::c(a.quality, a.testq),
-                         base::c(b.quality, b.testq),
+  return(.learn.compare( c(a.quality, a.testq),
+                         c(b.quality, b.testq),
                          threshold,
                          a.size,
                          b.size));
 }
 
 .learn.compare.r <- function(a.result, b.result, threshold) {
-  if(base::is.null(a.result)) {
+  if(is.null(a.result)) {
     a.size <- .Machine$integer.max;
     a.quality <- +Inf;
   } else {
@@ -107,7 +107,7 @@
     a.quality <- a.result@quality;
   }
 
-  if(base::is.null(b.result)) {
+  if(is.null(b.result)) {
     b.size <- .Machine$integer.max;
     b.quality <- +Inf;
   } else {

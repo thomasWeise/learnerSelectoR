@@ -19,7 +19,7 @@ learning.sample.uniform <- function(n) {
   if((n <= 0) || (n > .Machine$integer.max)) {
     stop("Number of elements to sample from must be a positive number in the integer range.");
   }
-  t <- base::as.integer(n);
+  t <- as.integer(n);
   if(t != n) {
     stop("Number of elements to sample from must be an integer greater than 0.");
   }
@@ -27,21 +27,21 @@ learning.sample.uniform <- function(n) {
 
   # if there are less than three samples...
   if(n <= 2L) {
-    o <- base::c(1L);
+    o <- c(1L);
     if(n <= 1L) {
       # if there is only one sample, we use it for training and test...
-      return(base::list(base::list(training=o, test=o)));
+      return(list(list(training=o, test=o)));
     }
     # for two samples, we have two single-set choices
-    t <- base::c(2L);
-    return(base::list(
-            base::list(training=o, test=t),
-            base::list(training=t, test=o)));
+    t <- c(2L);
+    return(list(
+            list(training=o, test=t),
+            list(training=t, test=o)));
   }
 
   if(n <= 25) {
     # for up to 25 samples, we do leave-one-out
-    return(base::lapply(X=n:1, FUN=
+    return(lapply(X=n:1, FUN=
                     function(i) {
                       if(i<=1) {
                         training<-2:n;
@@ -49,32 +49,32 @@ learning.sample.uniform <- function(n) {
                         if(i>=n) {
                           training <- 1:(i-1);
                         } else {
-                          training <- base::c(1:(i-1), (i+1):n);
+                          training <- c(1:(i-1), (i+1):n);
                         }
                       }
-                      return(base::list(training=training, test=base::c(i)));
+                      return(list(training=training, test=c(i)));
                     }));
   }
 
   # if we have sufficiently many data samples, we perform a ten-fold cross-validation.
-  all <- base::sample.int(n=n);
-  return(base::lapply(X=0:9, FUN=
+  all <- sample.int(n=n);
+  return(lapply(X=0:9, FUN=
           function(i) {
-            start <- base::as.integer((i*n)/10) + 1;
-            end <- base::as.integer(((i+1)*n)/10);
+            start <- as.integer((i*n)/10) + 1;
+            end <- as.integer(((i+1)*n)/10);
 
             test <- NULL;
 
             if(start > 1) {
-              training <- base::c(all[1:(start-1)]);
+              training <- c(all[1:(start-1)]);
             } else {
               training <- NULL;
             }
             if(end < n) {
-              training <- base::c(training, all[(end+1):n])
+              training <- c(training, all[(end+1):n])
             }
 
             # we sort the training and test set in order to allow for more cache-friendly selections.
-            return(base::list(training=base::sort(training), test=base::sort(all[start:end])));
+            return(list(training=sort(training), test=sort(all[start:end])));
           }));
 }
