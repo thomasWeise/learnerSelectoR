@@ -23,7 +23,8 @@ rank.by.comparison <- function(data, comparator) {
   }
 
   # create list (looks strange, I don't know how to do it better)
-  counters <- base::lapply(X=1:n, FUN=function(x) base::list(losses=0L, equals=0L));
+  losses <- base::rep(0L, n);
+  equals <- base::rep(0L, n);
 
   # unfortunately, quadratic complexity ... I don't have a good sorting method
   # handy/implemented for this, for now it will do.
@@ -32,13 +33,13 @@ rank.by.comparison <- function(data, comparator) {
     for(j in 1:(i-1)) {
       res <- comparator(a, data[[j]]);
       if(res < 0L) {
-        counters[[j]]$losses <- counters[[j]]$losses + 1L;
+        losses[[j]] <- losses[[j]] + 1L;
       } else {
         if(res > 0L) {
-          counters[[i]]$losses <- counters[[i]]$losses + 1L;
+          losses[[i]] <- losses[[i]] + 1L;
         } else {
-          counters[[i]]$equals <- counters[[i]]$equals + 1L;
-          counters[[j]]$equals <- counters[[j]]$equals + 1L;
+          equals[[i]] <- equals[[i]] + 1L;
+          equals[[j]] <- equals[[j]] + 1L;
         }
       }
     }
@@ -46,14 +47,14 @@ rank.by.comparison <- function(data, comparator) {
 
   # Finalize the computation and return a vector with the ranks.
   # If all ranks are integers, an integer vector is returned.
-  return(base::sapply(X=counters,
+  return(base::sapply(X=1:n,
                       FUN=function(c) {
-                          rank <- c$losses + 1L;
-                          if(c$equals <= 0L) { return(rank); }
-                          t1 <- 0.5*c$equals;
-                          t2 <- base::as.integer(t1);
-                          if(t1 == t2) { return(rank + t2); }
-                          return(rank + t1);
-                        },
+                        rank <- losses[c] + 1L;
+                        if(equals[c] <= 0L) { return(rank); }
+                        t1 <- 0.5*equals[c];
+                        t2 <- base::as.integer(t1);
+                        if(t1 == t2) { return(rank + t2); }
+                        return(rank + t1);
+                      },
                       simplify="array", USE.NAMES=FALSE));
 }
