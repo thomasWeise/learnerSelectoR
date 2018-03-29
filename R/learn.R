@@ -6,14 +6,10 @@
 
 .def.selector <- function(data, selection) data[selection]
 
-# ignore the argument
-# @param e ignored
-.ignore<-function(e) { }
-
 # Execute the expression and ignore all errors
 # @param exp the expression
 .ignore.errors <- function(exp) {
-  tryCatch(exp, error=.ignore, warning=.ignore)
+  tryCatch(suppressWarnings(exp), error=function(e) { })
 }
 
 #' @title Apply a Set of Machine Learning Methods and Produce a Final Result with the Most Promising One
