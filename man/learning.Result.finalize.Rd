@@ -5,15 +5,16 @@
 \alias{learning.Result.finalize}
 \alias{learning.Result.finalize,learning.Result-method}
 \title{Finalize a Learning Result}
+\usage{
+learning.Result.finalize(object)
+
+\S4method{learning.Result.finalize}{learning.Result}(object)
+}
 \arguments{
 \item{object}{the instance of \code{\link{learning.Result}}}
-
-\item{object}{the \code{\link{learning.Result}} instance}
 }
 \value{
 the finalized \code{\link{learning.Result}} instance
-
-the same as \code{object}
 }
 \description{
 This method can be invoked after a model learning process has
@@ -23,6 +24,4 @@ This method can be invoked after a model learning process has
   extra method. Assume, for instance, that your learning task is to fit many
   models to a data set and then select a specific model for future use. You
   would invoke \code{learning.Result.finalize} only on this selected model.
-
-This default implementation does nothing and returns the instance as-is
 }

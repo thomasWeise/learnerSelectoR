@@ -12,11 +12,11 @@
 #' @slot size the size of the result, e.g., the number of fixed parameters
 #' @exportClass learning.Result
 #' @importFrom methods setClass representation prototype
-learning.Result <- methods::setClass(
+learning.Result <- setClass(
   Class = "learning.Result",
-  representation = methods::representation(quality="numeric",
-                                           size="integer"),
-  prototype = methods::prototype(size=.Machine$integer.max),
+  representation = representation(quality="numeric",
+                                  size="integer"),
+  prototype = prototype(size=.Machine$integer.max),
   validity = function(object) {
     if(!(learning.checkQuality(object@quality))) {
       return("Quality value of learning result must a positive, finite number or 0.");
@@ -37,12 +37,12 @@ learning.Result <- methods::setClass(
 #' @importFrom methods new validObject
 #' @export learning.Result.new
 learning.Result.new <- function(quality, size=.Machine$integer.max) {
-  result <- methods::new("learning.Result", quality=quality, size=size);
+  result <- new("learning.Result", quality=quality, size=size);
   result <- force(result);
   result@quality <- force(result@quality);
   result@size <- force(result@size);
   result <- force(result);
-  methods::validObject(result);
+  validObject(result);
   return(result);
 }
 
@@ -62,21 +62,18 @@ learning.Result.new <- function(quality, size=.Machine$integer.max) {
 #' @exportMethod learning.Result.finalize
 #' @docType methods
 #' @aliases learning.Result.finalize
-methods::setGeneric(
+#' @rdname learning.Result.finalize
+setGeneric(
   name="learning.Result.finalize",
   def=function(object) {
     standardGeneric("learning.Result.finalize")
   }
 )
 
-#' @title Finalize and \code{\link{learning.Result}} Instance
-#' @description This default implementation does nothing and returns the instance as-is
-#' @param object the \code{\link{learning.Result}} instance
-#' @return the same as \code{object}
 #' @importFrom methods setMethod
-#' @name learning.Result.finalize
 #' @aliases learning.Result.finalize,learning.Result-method
-methods::setMethod(
+#' @rdname learning.Result.finalize
+setMethod(
   f="learning.Result.finalize",
   signature="learning.Result",
   definition=function(object) {

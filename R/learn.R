@@ -83,7 +83,7 @@ learning.learn <- function(data,
     results <- lapply(X=choices, FUN=function(c) {
       result <- NULL;
       .ignore.errors(result <- learners[[c$learner]](data.use[[c$representation]]));
-      if(methods::is(result, "learning.Result")) {
+      if(is(result, "learning.Result")) {
         return(result);
       }
       return(NULL); });
@@ -93,7 +93,7 @@ learning.learn <- function(data,
     qualities <- vapply(X=choices.range,
                               FUN=function(c) {
                                 res <- results[[c]];
-                                if(!(methods::is(res, "learning.Result"))) { return(+Inf); }
+                                if(!(is(res, "learning.Result"))) { return(+Inf); }
                                 q <- (+Inf);
                                 .ignore.errors(
                                  q <- test.quality(data.use[[choices[[c]]$representation]], res)
@@ -146,7 +146,7 @@ learning.learn <- function(data,
     .ignore.errors(result <- learners[[method$learner]](data.this));
 
     # check if this is the best solution we got so far
-    if(methods::is(result, "learning.Result")) {
+    if(is(result, "learning.Result")) {
       if(is.null(best)) { best <- result; }
       else {
         if(.learn.compare.r(result, best, threshold) < 0L) {
