@@ -10,29 +10,31 @@
 # @param b.size the size of the model built by the second approach
 # @return -1L if the first model is better, 1L if the second model is better, 0L
 #   if there is no difference
-.learn.compare <- function(a.quality, b.quality, threshold, a.size, b.size) {
-  qa <- a.quality[1];
-  qb <- b.quality[1];
+.learn.compare <- function(a.quality.1, a.quality.2,
+                           b.quality.1, b.quality.2,
+                           threshold,
+                           a.size, b.size) {
+
   # our primary criterion is the quality
-  if(is.finite(qa) && (qa >= 0)) {# == learning.checkQuality(qa)) {
+  if(is.finite(a.quality.1) && (a.quality.1 >= 0)) {
     # a has a finite quality
-    if(is.finite(qb) && (qb >= 0)) {# == learning.checkQuality(qb)) {
+    if(is.finite(b.quality.1) && (b.quality.1 >= 0)) {
       # b too, so we can compare them
-      if(qa != qb) {
+      if(a.quality.1 != b.quality.1) {
         # the qualities are not identical
-        diff <- abs( 2 * ((qa - qb) / (qa + qb)) );
+        diff <- abs( 2 * ((a.quality.1 - b.quality.1) / (a.quality.1 + b.quality.1)) );
         if((!(is.finite(diff))) || (diff > threshold)) {
           # and either too big to compute the threshold, or the difference
           # is bigger than what can be ignored - so we compare them
-          if(qa < qb) { return(-1L); }
-          if(qa > qb) { return(1L); }
+          if(a.quality.1 < b.quality.1) { return(-1L); }
+          if(a.quality.1 > b.quality.1) { return(1L); }
         } # difference is small
       } # qualities are the same
     } else { # quality a is finite, b is not
       return(-1L);
     }
   } else { # quality a is not finite
-    if(is.finite(qb) && (qb >= 0)) {# == learning.checkQuality(qb)) {
+    if(is.finite(b.quality.1) && (b.quality.1 >= 0)) {
       return(1L); # but b is, so b is better
     }
     # both qualities are infinite, so no one wins
@@ -44,32 +46,28 @@
   if(a.size > b.size) { return(1L); } # a is bigger
 
   # ok, so models have same size ... check again qualities, ignore thresholds
-  if(qa < qb) { return(-1L); }
-  if(qa > qb) { return(1L); }
+  if(a.quality.1 < b.quality.1) { return(-1L); }
+  if(a.quality.1 > b.quality.1) { return(1L); }
 
   # test qualities are either all non-finite or identical, model sizes are
   # same, so we now check the training qualities
-  if(length(a.quality) > 1) {
-    qa <- a.quality[2];
-    qb <- b.quality[2];
-
-    if(is.finite(qa) && (qa >= 0)) {# == learning.checkQuality(qa)) {
-      # a has a finite quality
-      if(is.finite(qb) && (qb >= 0)) {# == learning.checkQuality(qb)) {
-        # b too, so we can compare them
-        if(qa < qb) { return(-1L); }
-        if(qa > qb) { return(1L); }
-        return(0L);
-      } else { # quality a is finite, b is not
-        return(-1L);
-      }
-    } else { # quality a is not finite
-      if(is.finite(qb) && (qb >= 0)) {# == learning.checkQuality(qb)) {
-        return(1L); # but b is, so b is better
-      }
-      # both qualities are infinite, so no one wins
+  if(is.finite(a.quality.2) && (a.quality.2 >= 0)) {# == learning.checkQuality(a.quality.2)) {
+    # a has a finite quality
+    if(is.finite(b.quality.2) && (b.quality.2 >= 0)) {# == learning.checkQuality(b.quality.2)) {
+      # b too, so we can compare them
+      if(a.quality.2 < b.quality.2) { return(-1L); }
+      if(a.quality.2 > b.quality.2) { return(1L); }
+      return(0L);
+    } else { # quality a is finite, b is not
+      return(-1L);
     }
+  } else { # quality a is not finite
+    if(is.finite(b.quality.2) && (b.quality.2 >= 0)) {# == learning.checkQuality(b.quality.2)) {
+      return(1L); # but b is, so b is better
+    }
+    # both qualities are infinite, so no one wins
   }
+
 
   return(0L); # no discernable difference
 }
@@ -91,8 +89,10 @@
     b.testq <- b.result@quality;
   }
 
-  return(.learn.compare( c(a.quality, a.testq),
-                         c(b.quality, b.testq),
+  return(.learn.compare( a.quality,
+                         a.testq,
+                         b.quality,
+                         b.testq,
                          threshold,
                          a.size,
                          b.size));
@@ -100,24 +100,17 @@
 
 .learn.compare.r <- function(a.result, b.result, threshold) {
   if(is.null(a.result)) {
-    a.size <- .Machine$integer.max;
-    a.quality <- +Inf;
+    if(is.null(b.result)) { return(0L); }
+    return(1L);
   } else {
-    a.size <- a.result@size;
-    a.quality <- a.result@quality;
+    if(is.null(b.result)) { return(-1L); }
   }
 
-  if(is.null(b.result)) {
-    b.size <- .Machine$integer.max;
-    b.quality <- +Inf;
-  } else {
-    b.size <- b.result@size;
-    b.quality <- b.result@quality;
-  }
-
-  return(.learn.compare( a.quality,
-                         b.quality,
+  return(.learn.compare( a.result@quality,
+                         a.result@quality,
+                         b.result@quality,
+                         b.result@quality,
                          threshold,
-                         a.size,
-                         b.size));
+                         a.result@size,
+                         b.result@size));
 }

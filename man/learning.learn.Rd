@@ -2,11 +2,12 @@
 % Please edit documentation in R/learn.R
 \name{learning.learn}
 \alias{learning.learn}
-\title{Apply a Set of Machine Learning Methods and Produce a Final Result with the Most Promising One}
+\title{Apply a Set of Machine Learning Methods and Produce a Final Result
+  with the Most Promising One}
 \usage{
 learning.learn(data, data.size, learners, test.quality,
   selector = .def.selector, representations = NULL,
-  test.selector = selector, threshold = 0.004)
+  test.selector = selector, q = 0.75, threshold = 0.004)
 }
 \arguments{
 \item{data}{the data set based on which we perform the learning task}
@@ -33,6 +34,10 @@ be used for learning, or \code{NULL} to only use the original \code{data}.}
 \item{test.selector}{similar to selector, but used to derive the data for
 testing, by default equal to \code{selector}}
 
+\item{q}{the effort to spent in learning, a value between 0 (min) and 1
+(max). Higher values may lead to much more computational time, lower values
+to potentially lower result quality.}
+
 \item{threshold}{the relative difference between two test qualities below
 which we will pick the the "smaller" result}
 }
@@ -41,7 +46,20 @@ the result of the learning process
 }
 \description{
 This method applies a set of machine learning methods to a
-  machine learning task. It does so by first performing cross-valdation to
-  choose the method which most likely can generalize well, and then applies
+machine learning task. It does so by first performing cross-valdation to
+choose the method which most likely can generalize well, and then applies
 this method to the complete dataset.
+
+It supports using different data representations.
+
+The learning effort value \code{q} tells the system how much effort to invest
+into the learning. The value is handed down to the learners which may
+interpret it in a meaningful way. \code{q=0} is the smallest possible effort
+value and means "Learn as fast as possible, don't care about the result
+quality." \code{q=1} is the largest possible effort value, meaning "Do
+whatever you can to increase the learning quality, don't care about the
+runtime." During the cross-validation, phase the learners are applied with
+\code{q^3}, which should speed-up this selection procedure, while maintaining
+that \code{q=1} would still excert maximum effort. During the final
+application of the selected learner, \code{q} is supplied as-is.
 }

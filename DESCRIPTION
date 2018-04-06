@@ -1,7 +1,7 @@
 Package: learnerSelectoR
 Type: Package
 Title: An R Package for Automatically Selecting and Applying a (Machine) Learning Method
-Version: 0.8.5
+Version: 0.8.6
 Author: Dr. Thomas Weise <tweise@hfuu.edu.cn>
 Maintainer: Dr. Thomas Weise <tweise@hfuu.edu.cn>
 Description: This package provides an infrastructure for selecting the right Machine Learning

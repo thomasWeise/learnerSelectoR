@@ -50,7 +50,7 @@ test_that("learning.learn full test", {
                             model.6),
                      FUN=function(model) {
                        model<-force(model);
-                       return(function(data) {
+                       return(function(data,q) {
                          tryCatch(
                            fitted <- nls.lm(par=runif(n=model$size, min=-1, max=1),
                                             fn=function(par) data$y-model$model(data$x, par)),
@@ -58,11 +58,11 @@ test_that("learning.learn full test", {
                          if(is.null(fitted)) { return(NULL); }
                          if(!(is.finite(fitted$deviance))) { return(NULL); }
                          fitted <- force(fitted$par);
-                         q <- data$metric(f=model$model, par=fitted);
-                         q <- force(q);
-                         if((!(is.finite(q))) || (q < 0)) { return(NULL); }
+                         quality <- data$metric(f=model$model, par=fitted);
+                         quality <- force(quality);
+                         if((!(is.finite(quality))) || (quality < 0)) { return(NULL); }
                          result <- (new("Model.Fitted",
-                                    quality=q,
+                                    quality=quality,
                                     size=model$size,
                                     par=fitted,
                                     model=model,
@@ -155,7 +155,7 @@ test_that("learning.learn test with single representation", {
                             model.6),
                      FUN=function(model) {
                        model<-force(model);
-                       return(function(data) {
+                       return(function(data,q) {
                          tryCatch(
                            fitted <- nls.lm(par=runif(n=model$size, min=-1, max=1),
                                             fn=function(par) data$y-model$model(data$x, par)),
@@ -163,11 +163,11 @@ test_that("learning.learn test with single representation", {
                          if(is.null(fitted)) { return(NULL); }
                          if(!(is.finite(fitted$deviance))) { return(NULL); }
                          fitted <- force(fitted$par);
-                         q <- data$metric(f=model$model, par=fitted);
-                         q <- force(q);
-                         if((!(is.finite(q))) || (q < 0)) { return(NULL); }
+                         quality <- data$metric(f=model$model, par=fitted);
+                         quality <- force(quality);
+                         if((!(is.finite(quality))) || (quality < 0)) { return(NULL); }
                          result <- (new("Model.Fitted",
-                                        quality=q,
+                                        quality=quality,
                                         size=model$size,
                                         par=fitted,
                                         model=model,
@@ -260,7 +260,7 @@ test_that("learning.learn with a single model that does not fit too well", {
   learners <- lapply(X=list(model.1),
                      FUN=function(model) {
                        model<-force(model);
-                       return(function(data) {
+                       return(function(data,q) {
                          tryCatch(
                            fitted <- nls.lm(par=runif(n=model$size, min=-1, max=1),
                                             fn=function(par) data$y-model$model(data$x, par)),
@@ -268,11 +268,11 @@ test_that("learning.learn with a single model that does not fit too well", {
                          if(is.null(fitted)) { return(NULL); }
                          if(!(is.finite(fitted$deviance))) { return(NULL); }
                          fitted <- force(fitted$par);
-                         q <- data$metric(f=model$model, par=fitted);
-                         q <- force(q);
-                         if((!(is.finite(q))) || (q < 0)) { return(NULL); }
+                         quality <- data$metric(f=model$model, par=fitted);
+                         quality <- force(quality);
+                         if((!(is.finite(quality))) || (quality < 0)) { return(NULL); }
                          result <- (new("Model.Fitted",
-                                        quality=q,
+                                        quality=quality,
                                         size=model$size,
                                         par=fitted,
                                         model=model,
@@ -356,7 +356,7 @@ test_that("learning.learn test with single representation and model", {
   learners <- lapply(X=list(model.1),
                      FUN=function(model) {
                        model<-force(model);
-                       return(function(data) {
+                       return(function(data,q) {
                          tryCatch(
                            fitted <- nls.lm(par=runif(n=model$size, min=-1, max=1),
                                             fn=function(par) data$y-model$model(data$x, par)),
@@ -364,11 +364,11 @@ test_that("learning.learn test with single representation and model", {
                          if(is.null(fitted)) { return(NULL); }
                          if(!(is.finite(fitted$deviance))) { return(NULL); }
                          fitted <- force(fitted$par);
-                         q <- data$metric(f=model$model, par=fitted);
-                         q <- force(q);
-                         if((!(is.finite(q))) || (q < 0)) { return(NULL); }
+                         quality <- data$metric(f=model$model, par=fitted);
+                         quality <- force(quality);
+                         if((!(is.finite(quality))) || (quality < 0)) { return(NULL); }
                          result <- (new("Model.Fitted",
-                                        quality=q,
+                                        quality=quality,
                                         size=model$size,
                                         par=fitted,
                                         model=model,

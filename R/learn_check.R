@@ -65,8 +65,8 @@
     } else {
       learner.args <- formals(learner);
     }
-    if(!(identical(names(learner.args), c("data")))) {
-      stop("A learner must be a function with exactly one argument named 'data'.");
+    if(!(identical(names(learner.args), c("data", "q")))) {
+      stop("A learner must be a function with exactly two arguments, named 'data' (the data to learn) and 'q' (effort, between 1 (max) and 0 (min)).");
     }
   }
   return(learners.length);
