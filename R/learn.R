@@ -4,6 +4,7 @@
 #' @include learn_check.R
 #' @include learn_compare.R
 
+# the default selection method treats the data as list or vector
 .def.selector <- function(data, selection) data[selection]
 
 # Execute the expression and ignore all errors
