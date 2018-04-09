@@ -7,11 +7,6 @@
 # the default selection method treats the data as list or vector
 .def.selector <- function(data, selection) data[selection]
 
-# Execute the expression and ignore all errors
-# @param exp the expression
-.ignore.errors <- function(exp) {
-  tryCatch(suppressWarnings(exp), error=function(e) { })
-}
 
 #' @title Apply a Set of Machine Learning Methods and Produce a Final Result
 #'   with the Most Promising One
@@ -58,6 +53,7 @@
 #' @return the result of the learning process
 #' @export learning.learn
 #' @importFrom methods is
+#' @importFrom utilizeR ignoreErrors
 learning.learn <- function(data,
                            data.size,
                            learners,
@@ -109,7 +105,7 @@ learning.learn <- function(data,
     # then we apply all learners to training data
     results <- lapply(X=choices, FUN=function(c) {
       result <- NULL;
-      .ignore.errors(
+      ignoreErrors(
         result <- learners[[c$learner]](
                    data.use[[c$representation]],
                    q.train));
@@ -126,7 +122,7 @@ learning.learn <- function(data,
                       res <- results[[c]];
                       if(!(is(res, "learning.Result"))) { return(+Inf); }
                       quality <- (+Inf);
-                      .ignore.errors(
+                      ignoreErrors(
                         quality <- test.quality(data.use[[choices[[c]]$representation]], res)
                       );
                       if(learning.checkQuality(quality)) {
@@ -177,7 +173,7 @@ learning.learn <- function(data,
     }
 
     result <- NULL;
-    .ignore.errors(result <- learners[[method$learner]](data.this, q.end));
+    ignoreErrors(result <- learners[[method$learner]](data.this, q.end));
 
     # check if this is the best solution we got so far
     if(is(result, "learning.Result")) {
