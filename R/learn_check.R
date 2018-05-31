@@ -1,14 +1,10 @@
 # check a selector
+#' @importFrom utilizeR function.args
 .learn.check.selector <- function(selector) {
   if(is.null(selector) || (!(is.function(selector)))) {
     stop("A selector must be a non-null function.");
   }
-  if(is.primitive(selector)) {
-    selector.args <- formals(args(selector));
-  } else {
-    selector.args <- formals(selector);
-  }
-  if(!(identical(names(selector.args), c("data", "selection", "index")))) {
+  if(!(identical(function.args(selector), c("data", "selection", "index")))) {
     stop("A selector must be a function with exactly three arguments: 'data', 'selection', and 'index'.");
   }
 }
@@ -47,6 +43,7 @@
 }
 
 # check the learners
+#' @importFrom utilizeR function.args
 .learn.check.learners <- function(learners) {
   # Check the learners.
   if(is.null(learners) || (!(is.list(learners)))) {
@@ -60,12 +57,7 @@
     if(is.null(learner) || (!(is.function(learner)))) {
       stop("All learners must be non-null functions.")
     }
-    if(is.primitive(learner)) {
-      learner.args <- formals(args(learner));
-    } else {
-      learner.args <- formals(learner);
-    }
-    if(!(identical(names(learner.args), c("data", "q")))) {
+    if(!(identical(function.args(learner), c("data", "q")))) {
       stop("A learner must be a function with exactly two arguments, named 'data' (the data to learn) and 'q' (effort, between 1 (max) and 0 (min)).");
     }
   }
@@ -73,17 +65,13 @@
 }
 
 # check the test quality metric
+#' @importFrom utilizeR function.args
 .learn.check.test.quality <- function(test.quality) {
   # Check the quality function
   if(is.null(test.quality) || (!(is.function(test.quality)))) {
     stop("A test.quality metric must be a non-null binary function.");
   }
-  if(is.primitive(test.quality)) {
-    test.quality.args <- formals(args(test.quality));
-  } else {
-    test.quality.args <- formals(test.quality);
-  }
-  if(!(identical(names(test.quality.args), c("data", "result")))) {
+  if(!(identical(function.args(test.quality), c("data", "result")))) {
     stop("A test.quality must be a biary function with exactly two arguments: 'data' and 'result'.");
   }
 }
